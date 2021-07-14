@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Accommodation Portal</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="navbaradmin.jsp" type="text/css"/>
+    </head>
+    <body>
+        <div class="container">
+            <div class="card" style="margin-top: 50px;">
+                <div class="card-body">
+                    <h4 style="text-align: center;">Login</h4>
+                    <form action="login"  method="post">
+                        <div class="form-group row">
+                            <label for="firstName" class="col-sm-2 col-form-label">First
+                                User Name</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="username"
+                                       placeholder="Enter user name">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="lastName" class="col-sm-2 col-form-label">Last
+                                Password</label>
+                            <div class="col-sm-7">
+                                <input type="password" class="form-control" name="password"
+                                       placeholder="Enter password">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="align-items: center;">Login</button>
+                        Do not have account?<a href="register">Register Here</a>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </body>
+</html>
+<script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $.ajax({
+            url: 'http://localhost:8080/AccommodationPortal/accommodationtypeparser',
+            type: 'GET',
+            dataType: "json",
+            success: function (responseText) {
+                var tableStr="";
+                jQuery.each(responseText, function(i, val) {
+                      tableStr += "<tr>\n"
+                            + "<td>" + val.type+ "</td>\n"
+                            + "<td>" + val.available + "</td>\n"
+                            + "<td><a class=\"btn btn-success\"	href=\"roomtypeupdate?id=" + val.id + "\">Edit</a>"
+                            + "<a class=\"btn btn-danger\"href=\"roomtypedelete?id=" + val.id + "\">Delete</a></td>\n";  
+                });
+                tableStr +="<\tr>";
+                $('#typetableBody').html('');
+                        $('#typetableBody').html(tableStr);
+                        //alert.show(JSON.parse(responseText))
+                       
+                },
+                        error: function (request, status, error) {
+                    }
+        });
+
+    });
+</script>
